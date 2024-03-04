@@ -34,7 +34,7 @@ export default function List_Chat() {
   }, [chatWithFriend]);
 
   useEffect(() => {
-    const newSocket = io("https://chat-app-socket-67e63ab891d1.herokuapp.com/");
+    const newSocket = io("https://chat-app-socket-67e63ab891d1.herokuapp.com");
 
     setSocket(newSocket);
 

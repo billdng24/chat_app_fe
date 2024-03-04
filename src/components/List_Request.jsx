@@ -173,7 +173,7 @@ export default function List_Request() {
   }, [socket]);
 
   useEffect(() => {
-    const newSocket = io("https://chat-app-socket-67e63ab891d1.herokuapp.com/");
+    const newSocket = io("https://chat-app-socket-67e63ab891d1.herokuapp.com");
     setSocket(newSocket);
     return () => {
       newSocket.disconnect();
