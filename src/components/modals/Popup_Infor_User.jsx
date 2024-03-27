@@ -1,12 +1,12 @@
 import { CloseOutlined, EditOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import Popup_Update_User from "./Popup_Update_User";
-import { formatDate } from "../utils/formatDate";
-import PropTypes from "prop-types";
+import { useAuthContext } from "../../context/AuthContext";
+import { formatDate } from "../../utils/formatDate";
 
 export default function Popup_Infor_User({ close }) {
   const [showPopup, setShowPopup] = useState(false);
-  const userLocal = JSON.parse(localStorage.getItem("userLocal"));
+  const { userLocal } = useAuthContext();
 
   // Mở popup cập nhật thông tin user
   const handleShowPopup = () => {
@@ -22,9 +22,7 @@ export default function Popup_Infor_User({ close }) {
   return (
     <>
       {/* Popup cập nhật thông tin user  */}
-      {showPopup && (
-        <Popup_Update_User close={handleClosePopup} userLocal={userLocal} />
-      )}
+      {showPopup && <Popup_Update_User close={handleClosePopup} />}
 
       <div className="z-40 fixed top-0 bottom-0 right-0 left-0 bg-bgc-0.5 flex justify-center items-center">
         <div className="bg-white p-6 rounded w-[450px]">
@@ -57,7 +55,7 @@ export default function Popup_Infor_User({ close }) {
             <h3 className="font-semibold text-lg">Thông tin cá nhân</h3>
             <div className="w-2/3 flex gap-12">
               <span className="min-w-[150px]">Số điện thoại</span>
-              <div className="text-start">849823483</div>
+              <div className="text-start">{userLocal.PhoneNumber}</div>
             </div>
             <div className="w-2/3 flex gap-12">
               <span className="min-w-[150px]">Giới tính</span>
@@ -92,7 +90,3 @@ export default function Popup_Infor_User({ close }) {
     </>
   );
 }
-
-Popup_Infor_User.propTypes = {
-  close: PropTypes.func.isRequired,
-};

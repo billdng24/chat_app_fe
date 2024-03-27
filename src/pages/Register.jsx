@@ -8,7 +8,7 @@ export default function Register() {
   const [user, setUser] = useState({
     UserName: "",
     DateOfBirth: "",
-    Email: "",
+    PhoneNumber: "",
     Password: "",
   });
   const [gender, setGender] = useState(0);
@@ -101,14 +101,14 @@ export default function Register() {
             />
           </div>
           <div>
-            <label htmlFor="email">Email</label>
+            <label htmlFor="phoneNumber">Số điện thoại</label>
             <Input
               onChange={handleChange}
-              value={user.Email}
-              name="Email"
+              value={user.PhoneNumber}
+              name="PhoneNumber"
               className="mt-1"
-              id="email"
-              placeholder="Nhập địa chỉ email"
+              id="phoneNumber"
+              placeholder="Nhập số điện thoại"
             />
           </div>
           <div>

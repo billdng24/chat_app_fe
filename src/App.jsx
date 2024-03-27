@@ -1,24 +1,30 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Home_Chat from "./components/Home_Chat";
-import List_Request from "./components/List_Request";
-import Login from "./components/Login";
-import Register from "./components/Register";
-import PrivateRouter from "./routers/PrivateRouter";
+import List_Request from "./pages/List_Request";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import { useAuthContext } from "./context/AuthContext";
 
 function App() {
+  const { userLocal } = useAuthContext();
+
   return (
     <>
       <Routes>
-        <Route path="/" element={<Navigate to="/login" />} />
-
-        <Route element={<PrivateRouter />}>
-          <Route path="/chat" element={<Home_Chat />} />
-          <Route path="/list-request" element={<List_Request />} />
-        </Route>
-
-        <Route index path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route
+          path="/"
+          element={userLocal ? <Home_Chat /> : <Navigate to={"/login"} />}
+        />
+        <Route path="/list-request" element={<List_Request />} />
+        <Route
+          path="/login"
+          element={userLocal ? <Navigate to={"/"} /> : <Login />}
+        />
+        <Route
+          path="/register"
+          element={userLocal ? <Navigate to={"/"} /> : <Register />}
+        />
       </Routes>
     </>
   );

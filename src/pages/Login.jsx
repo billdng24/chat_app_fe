@@ -2,11 +2,13 @@ import { Button, Input, notification } from "antd";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import instance from "../api/apiConfig";
+import { useAuthContext } from "../context/AuthContext";
 
 export default function Login() {
+  const { setUserLocal } = useAuthContext();
   const navigate = useNavigate();
   const [user, setUser] = useState({
-    Email: "",
+    PhoneNumber: "",
     Password: "",
   });
 
@@ -23,12 +25,13 @@ export default function Login() {
       e.preventDefault();
       const res = await instance.post("auth/login", user);
       if (res.data.status === 200) {
-        navigate("/chat");
         localStorage.setItem("userLocal", JSON.stringify(res.data.data));
+        setUserLocal(res.data.data);
         notification.success({
           message: "Thành công",
           description: res.data.message,
         });
+        navigate("/");
       }
     } catch (error) {
       if (error.response.data.status === 400) {
@@ -53,25 +56,27 @@ export default function Login() {
         >
           <h3 className="font-bold text-2xl text-center my-3">Đăng nhập</h3>
           <div>
-            <label htmlFor="email">Email</label>
+            <label htmlFor="phoneNumber">Số điện thoại</label>
             <Input
               onChange={handleChange}
-              value={user.Email}
-              name="Email"
+              value={user.PhoneNumber}
+              name="PhoneNumber"
               className="mt-1"
-              id="email"
-              placeholder="Nhập địa chỉ email"
+              id="phoneNumber"
+              placeholder="Nhập số điện thoại"
+              autoComplete="username"
             />
           </div>
           <div>
             <label htmlFor="password">Mật khẩu</label>
             <Input.Password
               onChange={handleChange}
-              vcalue={user.Password}
+              value={user.Password}
               name="Password"
               className="mt-1"
               id="password"
               placeholder="Nhập mật khẩu"
+              autoComplete="current-password"
             />
           </div>
 

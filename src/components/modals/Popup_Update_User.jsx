@@ -1,16 +1,18 @@
 import { CloseOutlined } from "@ant-design/icons";
 import { DatePicker, Input, Radio, notification } from "antd";
-import PropTypes from "prop-types";
 import moment from "moment";
 import { useState } from "react";
-import instance from "../api/apiConfig";
+import instance from "../../api/apiConfig";
+import { useAuthContext } from "../../context/AuthContext";
 
-export default function Popup_Update_User({ close, userLocal }) {
+export default function Popup_Update_User({ close }) {
+  const { userLocal, setUserLocal } = useAuthContext();
   const [newUserName, setNewUserName] = useState(userLocal.UserName);
   const [newGender, setNewGender] = useState(userLocal.Gender);
   const [newDateOfBirth, setNewDateOfBirth] = useState(userLocal.DateOfBirth);
   const [newImage, setNewImage] = useState(userLocal.Image);
   const [file, setFile] = useState(null);
+  console.log(file);
 
   const handleChangeImage = (e) => {
     setFile(e.target.files[0]);
@@ -46,7 +48,6 @@ export default function Popup_Update_User({ close, userLocal }) {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log(res);
       if (res.data.status === 201) {
         close();
         const updatedUserLocal = {
@@ -54,10 +55,10 @@ export default function Popup_Update_User({ close, userLocal }) {
           UserName: newUserName,
           Gender: newGender,
           DateOfBirth: newDateOfBirth,
-          Image: res.data.file,
+          Image: res.data.file === null ? userLocal.Image : res.data.file,
           ModifiedDate: Date(),
         };
-        localStorage.setItem("userLocal", JSON.stringify(updatedUserLocal));
+        setUserLocal(updatedUserLocal);
 
         notification.success({
           message: "Thành công",
@@ -147,7 +148,10 @@ export default function Popup_Update_User({ close, userLocal }) {
           {/* Infor end */}
           <div className="border my-4"></div>
           <div className="flex justify-end items-center gap-2">
-            <button className="flex justify-center items-center gap-2 border h-9 px-4 rounded hover:bg-slate-200">
+            <button
+              onClick={close}
+              className="flex justify-center items-center gap-2 border h-9 px-4 rounded hover:bg-slate-200"
+            >
               Hủy
             </button>
             <button
@@ -162,14 +166,3 @@ export default function Popup_Update_User({ close, userLocal }) {
     </>
   );
 }
-
-Popup_Update_User.propTypes = {
-  userLocal: PropTypes.shape({
-    UserId: PropTypes.number,
-    Image: PropTypes.string,
-    UserName: PropTypes.string,
-    Gender: PropTypes.number,
-    DateOfBirth: PropTypes.string,
-  }),
-  close: PropTypes.func.isRequired,
-};
