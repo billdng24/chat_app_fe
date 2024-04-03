@@ -105,7 +105,7 @@ export default function Add_User_Chat({ close }) {
   return (
     <>
       <div className="z-50 fixed top-0 bottom-0 right-0 left-0 bg-bgc-0.5 flex justify-center items-center">
-        <div className="bg-white p-6 rounded w-[450px]">
+        <div className="bg-white p-6 rounded mobile:w-[320px] tablet:w-[450px]">
           <div className="flex justify-between items-center pb-3">
             <h3 className="text-xl font-semibold">Tạo nhóm</h3>
             <CloseOutlined
@@ -114,7 +114,7 @@ export default function Add_User_Chat({ close }) {
             />
           </div>
           <div className="flex items-center mb-4">
-            <label htmlFor="avatar-group" className="p-2 border rounded-full">
+            <label htmlFor="avatar-group" className="border rounded-full">
               <img
                 src={
                   image
@@ -122,7 +122,7 @@ export default function Add_User_Chat({ close }) {
                     : "https://png.pngtree.com/png-clipart/20230817/original/pngtree-multiple-users-chat-group-avatar-picture-image_7997916.png"
                 }
                 alt=""
-                className="h-6 w-6 cursor-pointer"
+                className="h-10 w-10 cursor-pointer rounded-full"
               />
             </label>
             <input

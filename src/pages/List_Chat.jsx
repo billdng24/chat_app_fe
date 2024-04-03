@@ -1,8 +1,12 @@
 import {
-  BellOutlined,
   FileImageOutlined,
+  LeftOutlined,
+  MenuFoldOutlined,
   MessageOutlined,
+  PhoneOutlined,
+  SearchOutlined,
   SendOutlined,
+  VideoCameraOutlined,
 } from "@ant-design/icons";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Spin } from "antd";
@@ -15,7 +19,6 @@ import { formatTime } from "../utils/formatDate";
 
 export default function List_Chat() {
   const [text, setText] = useState("");
-  const [showDialog, setShowDialog] = useState(false);
   const inputRef = useRef(null);
   const { userLocal } = useAuthContext();
   const [friends, setFriends] = useState([]);
@@ -28,6 +31,7 @@ export default function List_Chat() {
   const [isLoading, setIsLoading] = useState(true);
   const bottomRef = useRef();
   const [selectedItem, setSelectedItem] = useState(null);
+  const [hidden, setHidden] = useState(false);
 
   // Xử lý cuộn trang khi gửi tin nhắn
   useEffect(() => {
@@ -95,6 +99,7 @@ export default function List_Chat() {
         });
     setRoomImage(info.Image);
     setFriendChat(info.UserId);
+    setHidden(true);
   };
 
   //
@@ -159,9 +164,17 @@ export default function List_Chat() {
     fetchData();
   }, []);
 
+  const handleCloseChat = () => {
+    setHidden(false);
+  };
+
   return (
     <>
-      <div className="flex flex-col w-80 border-r">
+      <div
+        className={`${
+          hidden ? "hidden tablet:block" : ""
+        } flex-col w-full tablet:w-80 border-r flex-1`}
+      >
         <Search />
         <div>
           <ul className="flex flex-col max-h-screen overflow-auto">
@@ -177,7 +190,7 @@ export default function List_Chat() {
               [...friends, ...rooms].map((fr, index) => (
                 <li
                   key={index}
-                  className={`cursor-pointer px-6 py-3 gap-4  ${
+                  className={`cursor-pointer p-3 tablet:px-6 gap-4  ${
                     selectedItem === index
                       ? "bg-blue-50"
                       : "hover:bg-[rgb(249,250,251)]"
@@ -192,11 +205,11 @@ export default function List_Chat() {
                   >
                     <div className="flex items-center justify-center gap-2">
                       <img
-                        className="h-14 w-14 rounded-full"
+                        className="h-10 w-10 sm_tablet:h-12 sm_tablet:w-12 tablet:h-14 tablet:w-14 rounded-full"
                         src={fr.Image}
                         alt=""
                       />
-                      <span className="font-semibold">
+                      <span className="font-semibold truncate text-sm sm_tablet:text-base">
                         {fr.UserName || fr.RoomName}
                       </span>
                     </div>
@@ -211,65 +224,43 @@ export default function List_Chat() {
           </ul>
         </div>
       </div>
-      {roomName.name ? (
+      {roomName.name && hidden ? (
         <>
           <div className="flex flex-col w-full overflow-y-auto">
-            <div className="h-20  flex items-center justify-between px-4 py-2 border-b w-full">
-              <div className="flex items-center gap-4">
+            <div className="h-[4.55rem] tablet:h-20 flex items-center justify-between px-2 py-0 tablet:px-4 tablet:py-2 border-b w-full">
+              <div className="flex items-center gap-2 tablet:gap-4">
+                <LeftOutlined
+                  onClick={handleCloseChat}
+                  className="block tablet:hidden px-3"
+                />
                 <img
-                  className="h-14 w-14 rounded-full"
+                  className="h-10 w-10 tablet:h-11 tablet:w-11 hidden sm_tablet:block rounded-full"
                   src={roomImage}
                   alt=""
                 />
-                <div className="flex flex-col">
-                  <span className="font-semibold">{roomName.name}</span>
+                <div className="flex flex-col min-w-[120px] text-sm overflow-hidden">
+                  <span className="font-semibold truncate">
+                    {roomName.name}
+                  </span>
                   {roomName.type === "friends" ? (
-                    <p>
+                    <p className="truncate">
                       {userLocal ? "Đang hoạt động" : "Hoạt động 6 phút trước"}
                     </p>
                   ) : (
-                    <p>4 Thành viên </p>
+                    <p className="truncate">4 Thành viên </p>
                   )}
                 </div>
               </div>
-              <div>
-                <BellOutlined
-                  onClick={() => setShowDialog(!showDialog)}
-                  className="text-3xl absolute right-6 top-4 cursor-pointer hover:bg-[#E9F2FD] p-2 rounded-full"
-                />
-                <span className="bg-red-500 px-2 rounded-xl text-sm right-5 top-5 text-white z-10 absolute">
-                  10
-                </span>
-                {showDialog && (
-                  <ul className="bg-white absolute right-8 top-14 border rounded pt-2 w-[480px] max-h-[400px] overflow-y-auto">
-                    <div className="sticky top-0 bg-white z-20 font-semibold px-5 text-xl mb-2">
-                      Tất cả thông báo
-                    </div>
-                    <li className="py-2 px-2 cursor-pointer hover:bg-[#E9F2FD]">
-                      <div className="flex gap-3">
-                        <img
-                          className="h-14 rounded-full"
-                          src="https://tse4.mm.bing.net/th?id=OIP.0i9PRZGvJbv7kG7XoQUAWQHaHa&pid=Api&P=0&h=180"
-                          alt=""
-                        />
-                        <div className="flex flex-col justify-center">
-                          <div>Tin nhắn mới đến từ Nguyên</div>
-                          <div className="text-sm">Chào em nha</div>
-                        </div>
-                      </div>
-                    </li>
-                    <li className="py-2 px-2 cursor-not-allowed">
-                      <div className="flex gap-3 justify-center">
-                        <h2>Không có thông báo mới</h2>
-                      </div>
-                    </li>
-                  </ul>
-                )}
+              <div className="flex gap-1">
+                <PhoneOutlined className="text-lg sm_tablet:text-[22px] text-slate-700 font-light cursor-pointer hover:bg-gray-200 p-1 sm_tablet:p-2 rounded-lg rotate-90" />
+                <SearchOutlined className="text-lg sm_tablet:text-[22px] text-slate-700 font-light cursor-pointer hover:bg-gray-200 p-1 sm_tablet:p-2 rounded-lg" />
+                <VideoCameraOutlined className="text-lg sm_tablet:text-[22px] text-slate-700 font-light cursor-pointer hover:bg-gray-200 p-1 sm_tablet:p-2 rounded-lg" />
+                <MenuFoldOutlined className="text-lg sm_tablet:text-[22px] text-slate-700 font-light cursor-pointer hover:bg-gray-200 p-1 sm_tablet:p-2 rounded-lg" />
               </div>
             </div>
             <div
               className="bg-slate-200 w-full h-auto flex-1 p-5 overflow-auto"
-              style={{ maxHeight: "calc(100vh - 160px)" }}
+              style={{ maxHeight: "calc(100vh - 120px)" }}
             >
               {chatWithFriend.map((message, index) => (
                 <div key={index}>
@@ -300,22 +291,23 @@ export default function List_Chat() {
               ))}
               <div ref={bottomRef} />
             </div>
-            <div className="w-full px-3 bottom-0 py-3 bg-white">
-              <div className="flex justify-between gap-4 items-center">
+            <div className="w-full p-1 tablet:p-3 bottom-0 bg-white">
+              <div className="flex justify-between gap-1 tablet:gap-4 items-center h-10">
                 <input type="file" hidden id="file" />
                 <label htmlFor="file">
                   <FileImageOutlined className="text-2xl cursor-pointer text-gray-600" />
                 </label>
-                <InputEmoji
-                  ref={inputRef}
-                  className="w-full"
-                  value={text}
-                  onChange={setText}
-                  cleanOnEnter
-                  keepOpened={true}
-                  onEnter={handleSendMessage}
-                  placeholder="Nhập nội dung tin nhắn"
-                />
+                <div className="w-full overflow-hidden sm_tablet:h-12">
+                  <InputEmoji
+                    ref={inputRef}
+                    value={text}
+                    onChange={setText}
+                    cleanOnEnter
+                    keepOpened={true}
+                    onEnter={handleSendMessage}
+                    placeholder="Nhập nội dung tin nhắn"
+                  />
+                </div>
                 {text ? (
                   <SendOutlined
                     className="cursor-pointer text-blue-600"
@@ -331,7 +323,7 @@ export default function List_Chat() {
       ) : (
         <>
           <div
-            className="bg-cntain bg-center bg-no-repeat w-full"
+            className="bg-center bg-no-repeat w-full hidden tablet:block"
             style={{
               backgroundImage: `url('https://t4.ftcdn.net/jpg/04/72/65/73/360_F_472657366_6kV9ztFQ3OkIuBCkjjL8qPmqnuagktXU.jpg')`,
             }}

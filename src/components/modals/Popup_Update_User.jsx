@@ -77,7 +77,7 @@ export default function Popup_Update_User({ close }) {
   return (
     <>
       <div className="z-50 fixed top-0 bottom-0 right-0 left-0 flex justify-center items-center">
-        <div className="bg-white p-6 px-2 rounded w-[450px]">
+        <div className="bg-white p-6 px-2 rounded w-[333px] tablet:w-[450px]">
           <div className="flex justify-between items-center ">
             <h3 className="font-semibold text-xl">Cập nhật thông tin</h3>
             <CloseOutlined onClick={close} className="cursor-pointer" />

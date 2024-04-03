@@ -25,7 +25,7 @@ export default function Popup_Infor_User({ close }) {
       {showPopup && <Popup_Update_User close={handleClosePopup} />}
 
       <div className="z-40 fixed top-0 bottom-0 right-0 left-0 bg-bgc-0.5 flex justify-center items-center">
-        <div className="bg-white p-6 rounded w-[450px]">
+        <div className="bg-white p-6 rounded mobile:w-[320px] tablet:w-[450px]">
           <div className="flex justify-between items-center ">
             <h3 className="font-semibold text-xl">Thông tin tài khoản</h3>
             <CloseOutlined onClick={close} className="cursor-pointer" />

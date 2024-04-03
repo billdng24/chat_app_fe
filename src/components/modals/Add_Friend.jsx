@@ -79,7 +79,7 @@ export default function Add_Friend({ close }) {
   return (
     <>
       <div className="z-50 fixed top-0 bottom-0 right-0 left-0 bg-bgc-0.5 flex justify-center items-center">
-        <div className="bg-white p-6 rounded w-[450px]">
+        <div className="bg-white p-6 rounded mobile:w-[320px] sm_tablet:w-[450px]">
           <div className="flex justify-between items-center pb-3">
             <h3 className="text-xl font-semibold">Thêm bạn</h3>
             <CloseOutlined
@@ -88,8 +88,13 @@ export default function Add_Friend({ close }) {
             />
           </div>
           <div className="flex items-center mb-4">
-            <div className="border-b-[1px] border-gray-300 pb-1 pt-1 mr-3 font-medium text-slate-700">
-              <span>Việt Nam (+84) </span>
+            <div className="border-b-[1px] border-gray-300 pb-1 pt-1 mr-3 font-medium text-slate-700 flex">
+              <span className="text-nowrap hidden sm_tablet:block">
+                Việt Nam (+84){" "}
+              </span>
+              <span className="text-nowrap block sm_tablet:hidden mr-2">
+                (+84){" "}
+              </span>
               <CaretDownOutlined />
             </div>
             <input

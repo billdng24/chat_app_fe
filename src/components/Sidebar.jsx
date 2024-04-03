@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import {
+  CheckSquareOutlined,
   LogoutOutlined,
   MessageOutlined,
   SettingFilled,
   SettingOutlined,
   SolutionOutlined,
+  ToolOutlined,
   UserOutlined,
+  VideoCameraAddOutlined,
 } from "@ant-design/icons";
 import Modal from "./modals/Modal";
 import Popup_Infor_User from "./modals/Popup_Infor_User";
@@ -91,18 +94,18 @@ export default function Sidebar() {
       {/* Popup hiển thị thông tin cá nhân */}
       {showPopup && <Popup_Infor_User close={handleClosePopup} />}
 
-      <div className="w-20 bg-sky-500 h-screen justify-between flex gap-5 flex-col items-center ">
-        <div className="flex flex-col items-center mt-3">
+      <div className="flex w-14 pc:w-20 tablet:w-20 bg-sky-500 h-screen justify-between gap-5 flex-col items-center">
+        <div className="flex flex-col items-center mt-1 pc:mt-3">
           <img
             title={userLocal.UserName}
-            className="h-12 w-12 border rounded-full mt-2 mb-3"
+            className="h-10 w-10 tablet:h-12 tablet:w-12 border rounded-full mt-2 mb-3"
             src={userLocal.Image}
             alt=""
           />
           <NavLink
             title="Tin nhắn"
             to="/"
-            className="relative p-6 cursor-pointer"
+            className="relative p-[1.1rem] tablet:p-6 pc:p-6 cursor-pointer hover:bg-blue-500"
             style={({ isActive }) => {
               return {
                 backgroundColor: isActive ? "rgb(2 132 199)" : "",
@@ -110,12 +113,12 @@ export default function Sidebar() {
             }}
           >
             <span className="lex items-center justify-center absolute bg-red-500 rounded-full text-white text-xs right-1 top-2 z-10"></span>
-            <MessageOutlined className="text-3xl text-white" />
+            <MessageOutlined className="text-xl tablet:text-3xl text-white" />
           </NavLink>
           <NavLink
             title="Danh bạ"
             to="/list-request"
-            className="relative p-6 cursor-pointer"
+            className="relative p-[1.1rem] tablet:p-6 pc:p-6 cursor-pointer hover:bg-blue-500"
             style={({ isActive }) => {
               return {
                 backgroundColor: isActive ? "rgb(2 132 199)" : "",
@@ -129,13 +132,39 @@ export default function Sidebar() {
             >
               {count > 0 ? `${count}` : ""}
             </span>
-            <SolutionOutlined className="text-3xl text-white" />
+            <SolutionOutlined className="text-xl tablet:text-3xl text-white" />
+          </NavLink>
+          <NavLink
+            title="To-Do"
+            to="/to-do"
+            className="relative p-[1.1rem] tablet:p-6 pc:p-6 cursor-pointer hover:bg-blue-500"
+            style={({ isActive }) => {
+              return {
+                backgroundColor: isActive ? "rgb(2 132 199)" : "",
+              };
+            }}
+          >
+            <span className="lex items-center justify-center absolute bg-red-500 rounded-full text-white text-xs right-1 top-2 z-10"></span>
+            <CheckSquareOutlined className="text-xl tablet:text-3xl text-white" />
+          </NavLink>
+          <NavLink
+            title="BillVi"
+            to="/video-call"
+            className="relative p-[1.1rem] tablet:p-6 pc:p-6 cursor-pointer hover:bg-blue-500"
+            style={({ isActive }) => {
+              return {
+                backgroundColor: isActive ? "rgb(2 132 199)" : "",
+              };
+            }}
+          >
+            <span className="lex items-center justify-center absolute bg-red-500 rounded-full text-white text-xs right-1 top-2 z-10"></span>
+            <VideoCameraAddOutlined className="text-xl tablet:text-3xl text-white" />
           </NavLink>
         </div>
 
         <div>
           {showOption && (
-            <ul className="relative w-56 border shadow-2xl bg-white bottom-0 z-10 left-20 flex flex-col rounded-sm">
+            <ul className="relative w-56 border shadow-2xl bg-white bottom-[-55px] tablet:bottom-[-78px] z-10 left-24 tablet:left-20 flex flex-col rounded-sm">
               <li
                 onClick={handleShowPopup}
                 className="flex gap-2 py-2 items-center hover:bg-slate-300 cursor-pointer"
@@ -156,20 +185,20 @@ export default function Sidebar() {
               </li>
             </ul>
           )}
-          <div onClick={() => setShowOption(!showOption)}>
+          <div
+            onClick={() => setShowOption(!showOption)}
+            className="flex items-center flex-col justify-center"
+          >
+            <ToolOutlined className="left-0 text-xl tablet:text-3xl text-white p-[1.1rem] tablet:px-6 tablet:py-6 hover:bg-blue-500 cursor-pointer" />
             {showOption ? (
               <SettingFilled
                 title="Cài đặt"
-                className={`${
-                  showOption ? "left-[74px]" : "left-[1px]"
-                } text-3xl relative text-white px-6 py-4 hover:bg-sky-600 cursor-pointer`}
+                className="left-0 text-xl tablet:text-3xl relative text-white p-[1.1rem] tablet:px-6 tablet:py-6 hover:bg-blue-500 cursor-pointer"
               />
             ) : (
               <SettingOutlined
                 title="Cài đặt"
-                className={`${
-                  showOption ? "left-[74px]" : "left-[1px]"
-                } text-3xl relative text-white px-6 py-4 hover:bg-sky-600 cursor-pointer`}
+                className="left-0 text-xl tablet:text-3xl relative text-white p-[1.1rem] tablet:px-6 tablet:py-6 hover:bg-blue-500 cursor-pointer"
               />
             )}
           </div>

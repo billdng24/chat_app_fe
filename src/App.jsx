@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Home_Chat from "./components/Home_Chat";
-import List_Request from "./pages/List_Request";
+import List from "./pages/List";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { useAuthContext } from "./context/AuthContext";
@@ -16,7 +16,7 @@ function App() {
           path="/"
           element={userLocal ? <Home_Chat /> : <Navigate to={"/login"} />}
         />
-        <Route path="/list-request" element={<List_Request />} />
+        <Route path="/list-request" element={<List />} />
         <Route
           path="/login"
           element={userLocal ? <Navigate to={"/"} /> : <Login />}
